@@ -1,0 +1,34 @@
+Package: tidymeltt
+Version: 0.0.0.9000
+Title: Tidymeltt
+Description: "Tidy implementation of the `meltt` package. `meltt` offers a way to merge temporally and spatially disaggregated event datasets. The tidy version of this application breaks apart the steps so that each piece can be more easily analyzed and incorporated into analysis. In addition, this implementation does not require a Python dependency."
+Authors@R: person("Eric", "Dunford", , "edunford@umd.edu", c("aut", "cre"))
+License: LGPL-3
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+Imports: 
+    dplyr,
+    tibble,
+    purrr,
+    tidyr,
+    Rcpp,
+    RcppArmadillo,
+    forcats,
+    magrittr,
+    RcppProgress,
+    geosphere,
+    stringr,
+    knitr,
+    sf
+RoxygenNote: 6.0.1
+NeedsCompilation: yes
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo, 
+    RcppProgress
+VignetteBuilder: knitr
