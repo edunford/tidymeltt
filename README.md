@@ -3,7 +3,24 @@
 tidymeltt
 =========
 
-The goal of tidymeltt is to ...
+There is a wealth of event history data out there. `tidymeltt` makes it easier to match and analyse disparate event datasets.
+
+<!-- [![packageversion](https://img.shields.io/github/description/v/edunford/tidymeltt)](commits/master) -->
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tidymeltt)](https://cran.r-project.org/package=tidymeltt) <!-- [![Last-changedate](https://img.shields.io/badge/last%20change-2018--04--06-yellowgreen.svg)](/commits/master) -->
+
+The goal of `tidymeltt` is to provide a robust and efficient toolkit for integrating, understanding, and visualizing georeferenced event data. `tidymeltt` builds off of the methodology of `meltt` (Merging Event Data by Location, Time, and Type) but disaggregates its properties, standardizes its syntax, and increases the efficiency of the integration task. More importantly, `tidymeltt` offers a library of functions to better understand spatio-temporal co-occurrence across entries from different datasets, which makes it easier to leverage co-occurrences to assess patterns regarding overlap and process.
+
+Installation
+============
+
+Still completely in development
+
+``` r
+devtools::install_github("edunford/tidymeltt")
+#> Downloading GitHub repo edunford/tidymeltt@master
+#> from URL https://api.github.com/repos/edunford/tidymeltt/zipball/master
+#> Installation failed: Not Found (404)
+```
 
 Example
 -------
@@ -14,6 +31,9 @@ This is a basic example which shows you how to solve a common problem:
 ## basic example code
 ```
 
+Development
+===========
+
 To Dos
 ------
 
@@ -23,6 +43,8 @@ To Dos
 -   `partner()`:
     -   gather tax elements with class.
     -   build assessment
+-   rename `partner()` to `def_match()`
+-   rename `nearby()` to `def_close()`
 
 Consider
 --------

@@ -11,9 +11,25 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 ```
+
 # tidymeltt
 
-The goal of tidymeltt is to ...
+There is a wealth of event history data out there. `tidymeltt` makes it easier to match and analyse disparate event datasets. 
+
+<!-- [![packageversion](https://img.shields.io/github/description/v/edunford/tidymeltt)](commits/master) -->
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidymeltt)](https://cran.r-project.org/package=tidymeltt)
+<!-- [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master) -->
+
+The goal of `tidymeltt` is to provide a robust and efficient toolkit for integrating, understanding, and visualizing georeferenced event data. `tidymeltt` builds off of the methodology of `meltt` (Merging Event Data by Location, Time, and Type) but disaggregates its properties, standardizes its syntax, and increases the efficiency of the integration task. More importantly, `tidymeltt` offers a library of functions to better understand spatio-temporal co-occurrence across entries from different datasets, which makes it easier to leverage co-occurrences to assess patterns regarding overlap and process.  
+
+# Installation
+
+```{r}
+devtools::install_github("edunford/tidymeltt")
+```
+
 
 ## Example
 
@@ -24,6 +40,7 @@ This is a basic example which shows you how to solve a common problem:
 ```
 
 
+# Development
 ## To Dos
 
 - `define_ space/time`: build specific classes for each feature type.
