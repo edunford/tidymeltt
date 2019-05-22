@@ -6,7 +6,7 @@ output: github_document
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+  collapse = TRUE,error = F,message = F,warning = F,
   comment = "#>",
   fig.path = "man/figures/README-"
 )
@@ -22,21 +22,46 @@ The goal of `tidymeltt` is to provide a robust and efficient toolkit for integra
 
 # Installation
 
+**Note that the code is currently in production and is not currently stable.**
+
 ```{r,eval=F}
 devtools::install_github("edunford/tidymeltt")
 ```
 
 
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ```{r example}
-## basic example code
+require(tidyverse)
+require(tidymeltt)
+
+
+# Generate Fake Spatio-Temporal Data
+set.seed(123)
+N = 100
+dates = seq(from = as.Date("2007-01-01"),to=as.Date("2007-01-01"),by = "day")
+lons = runif(N,0,.1)
+lats = runif(N,0,.1)
+d1 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+d2 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+d3 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+#d3$date[1:10] = NA
+
+
+# Tidymeltt processing steps 
+
+bundle(d1,d2,d3) %>% # Bundle together candidate datasets
+define_space(.) %>% # define spatial features
+define_time(d1="date",d2="date",d3="date") %>% # define temporal features 
+define_close(.,space=2,time=1) -> xx # locate proximate entries (w/ no metadata disambiguation)
+
+xx
 ```
 
 
 # Development
+
 ## To Dos
 
 - `define_ space/time`: build specific classes for each feature type.
@@ -49,7 +74,7 @@ This is a basic example which shows you how to solve a common problem:
 - rename `nearby()` to `def_close()`
 
 
-## Consider
+## Consider Some Prefix Changes (for simplicity)
 
 - Changing `define_` to `def_`
 

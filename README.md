@@ -1,60 +1,108 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-tidymeltt
-=========
 
-There is a wealth of event history data out there. `tidymeltt` makes it easier to match and analyse disparate event datasets.
+# tidymeltt
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+There is a wealth of event history data out there. `tidymeltt` makes it
+easier to match and analyse disparate event datasets.
 
-The goal of `tidymeltt` is to provide a robust and efficient toolkit for integrating, understanding, and visualizing georeferenced event data. `tidymeltt` builds off of the methodology of `meltt` (Merging Event Data by Location, Time, and Type) but disaggregates its properties, standardizes its syntax, and increases the efficiency of the integration task. More importantly, `tidymeltt` offers a library of functions to better understand spatio-temporal co-occurrence across entries from different datasets, which makes it easier to leverage co-occurrences to assess patterns regarding overlap and process.
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-Installation
-============
+The goal of `tidymeltt` is to provide a robust and efficient toolkit for
+integrating, understanding, and visualizing georeferenced event data.
+`tidymeltt` builds off of the methodology of `meltt` (Merging Event Data
+by Location, Time, and Type) but disaggregates its properties,
+standardizes its syntax, and increases the efficiency of the integration
+task. More importantly, `tidymeltt` offers a library of functions to
+better understand spatio-temporal co-occurrence across entries from
+different datasets, which makes it easier to leverage co-occurrences to
+assess patterns regarding overlap and process.
+
+# Installation
+
+**Note that the code is currently in production and is not currently
+stable.**
 
 ``` r
 devtools::install_github("edunford/tidymeltt")
 ```
 
-Example
--------
-
-This is a basic example which shows you how to solve a common problem:
+## Example
 
 ``` r
-## basic example code
+require(tidyverse)
+require(tidymeltt)
+
+
+# Generate Fake Spatio-Temporal Data
+set.seed(123)
+N = 100
+dates = seq(from = as.Date("2007-01-01"),to=as.Date("2007-01-01"),by = "day")
+lons = runif(N,0,.1)
+lats = runif(N,0,.1)
+d1 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+d2 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+d3 = data.frame(date = sample(dates,size = N,replace = T),latitude = sample(lats,N,T),longitude = sample(lons,N,T))
+#d3$date[1:10] = NA
+
+
+# Tidymeltt processing steps 
+
+bundle(d1,d2,d3) %>% # Bundle together candidate datasets
+define_space(.) %>% # define spatial features
+define_time(d1="date",d2="date",d3="date") %>% # define temporal features 
+define_close(.,space=2,time=1) -> xx # locate proximate entries (w/ no metadata disambiguation)
+
+xx
+#> # A tibble: 3 x 5
+#>   source data              spatial_feature temporal_feature neighbors      
+#>   <chr>  <list>            <list>          <list>           <list>         
+#> 1 d1     <data.frame [100… <sf [100 × 2]>  <date [100]>     <tibble [100 ×…
+#> 2 d2     <data.frame [100… <sf [100 × 2]>  <date [100]>     <tibble [100 ×…
+#> 3 d3     <data.frame [100… <sf [100 × 2]>  <date [100]>     <tibble [100 ×…
 ```
 
-Development
-===========
+# Development
 
-To Dos
-------
+## To Dos
 
--   `define_ space/time`: build specific classes for each feature type.
--   `missing()`: build a singular function that reports missingness in the feature set.
--   `nearby()`: select space/time with class rather than name.
--   `partner()`:
-    -   gather tax elements with class.
-    -   build assessment
--   rename `partner()` to `def_match()`
--   rename `nearby()` to `def_close()`
+  - `define_ space/time`: build specific classes for each feature type.
+  - `missing()`: build a singular function that reports missingness in
+    the feature set.
+  - `nearby()`: select space/time with class rather than name.
+  - `partner()`:
+      - gather tax elements with class.
+      - build assessment
+  - rename `partner()` to `def_match()`
+  - rename `nearby()` to `def_close()`
 
-Consider
---------
+## Consider Some Prefix Changes (for simplicity)
 
--   Changing `define_` to `def_`
+  - Changing `define_` to `def_`
 
--   Organizing logic centers around a series of `def_` functions (computation/production functions) and `get_` functions (data retrieval functions)
-    -   `def_`
-        -   `def_time()` - what is time?
-        -   `def_space()` - what is space?
-        -   `def_taxonomy()` - what variables should entries be compared on?
-        -   `def_close()` - what constitutes "close"?
-        -   `def_match()` - which events match, given `def_close()` & `def_taxonomy()`
-    -   `get_`
-        -   `get_missing()` - what data is missing from the evaluation features?
-        -   `get_close()` - return data with an index marking all entries that are "near" to other entries in the other bundled datasets.
-        -   `get_matches()` - return all data that matched up; also, `get_duplicates()`. Same function.
-        -   `get_unique()` - return all data with duplicate entries removed.
-        -   `get_data()` - return unbundled data along with any requested features. Also, `unbundle()`.
+  - Organizing logic centers around a series of `def_` functions
+    (computation/production functions) and `get_` functions (data
+    retrieval functions)
+    
+      - `def_`
+          - `def_time()` - what is time?
+          - `def_space()` - what is space?
+          - `def_taxonomy()` - what variables should entries be compared
+            on?
+          - `def_close()` - what constitutes “close”?
+          - `def_match()` - which events match, given `def_close()` &
+            `def_taxonomy()`
+      - `get_`
+          - `get_missing()` - what data is missing from the evaluation
+            features?
+          - `get_close()` - return data with an index marking all
+            entries that are “near” to other entries in the other
+            bundled datasets.
+          - `get_matches()` - return all data that matched up; also,
+            `get_duplicates()`. Same function.
+          - `get_unique()` - return all data with duplicate entries
+            removed.
+          - `get_data()` - return unbundled data along with any
+            requested features. Also, `unbundle()`.
